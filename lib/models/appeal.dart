@@ -1,3 +1,5 @@
+import 'package:anti_corruption_app/models/appeal_type.dart';
+
 class Appeal {
   final int id;
   final int userId;
@@ -7,10 +9,9 @@ class Appeal {
   final String? adminComment;
   final bool isFake;
   final DateTime createdAt;
-  final DateTime updatedAt;
+  final AppealType? type;
   final String? evidenceUrl;
   final String? selfieUrl;
-  final AppealType? type;
 
   Appeal({
     required this.id,
@@ -21,10 +22,9 @@ class Appeal {
     this.adminComment,
     required this.isFake,
     required this.createdAt,
-    required this.updatedAt,
+    this.type,
     this.evidenceUrl,
     this.selfieUrl,
-    this.type,
   });
 
   factory Appeal.fromJson(Map<String, dynamic> json) {
@@ -35,12 +35,11 @@ class Appeal {
       message: json['message'],
       status: json['status'],
       adminComment: json['admin_comment'],
-      isFake: json['is_fake'],
+      isFake: json['is_fake'] ?? false,
       createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      type: json['type'] != null ? AppealType.fromJson(json['type']) : null,
       evidenceUrl: json['evidence_url'],
       selfieUrl: json['selfie_url'],
-      type: json['type'] != null ? AppealType.fromJson(json['type']) : null,
     );
   }
 }

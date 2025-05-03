@@ -1,7 +1,8 @@
+import 'package:anti_corruption_app/screens/auth/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/auth_service.dart';
-import '../home/home_screen.dart';
+import '../../home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -45,20 +46,20 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Anti-Corruption App',
+                'Anti-Corruption App (Test Mode)',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 30),
               TextFormField(
                 controller: _oneIdController,
                 decoration: const InputDecoration(
-                  labelText: 'OneID',
+                  labelText: 'Enter any text as OneID',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your OneID';
+                    return 'Please enter any text';
                   }
                   return null;
                 },
