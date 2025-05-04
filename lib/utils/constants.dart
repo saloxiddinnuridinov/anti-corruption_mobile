@@ -1,3 +1,4 @@
 class AppConstants {
-  static const String apiUrl = "http://domain.com/api";
+  static const String websiteUrl = 'https://www.anticorruption.uz';
+  static const String contactPhone = '+998712000001';
 }

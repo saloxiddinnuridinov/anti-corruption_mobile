@@ -1,5 +1,8 @@
 // import 'package:flutter/material.dart';
 // import '../utils/colors.dart';
+// import '../screens/profile/profile_screen.dart';
+// import '../screens/home/appeals/create_appeal_screen.dart';
+// import '../home/news/news_list_screen.dart'; // <--- bu import muhim
 //
 // class HomeScreen extends StatefulWidget {
 //   const HomeScreen({super.key});
@@ -13,22 +16,29 @@
 //
 //   final List<Widget> _screens = [
 //     const Center(child: Text('Murojaatlar', style: TextStyle(fontSize: 24))),
-//     const Center(child: Text('Yangiliklar', style: TextStyle(fontSize: 24))),
+//     const NewsListScreen(), // Yangiliklar sahifasi
 //     const Center(child: Text('Huquqiy maslahat', style: TextStyle(fontSize: 24))),
-//     const Center(child: Text('Profile', style: TextStyle(fontSize: 24))),
+//     const ProfileScreen(),
 //   ];
 //
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         title: const Text('Karrupsiyasiz kelajak'),
+//         title: const Text('Korrupsiyasiz kelajak'),
 //         centerTitle: true,
 //       ),
 //       body: _screens[_currentIndex],
 //       floatingActionButton: _currentIndex == 0
 //           ? FloatingActionButton(
-//         onPressed: () {},
+//         onPressed: () {
+//           Navigator.push(
+//             context,
+//             MaterialPageRoute(
+//               builder: (context) => const CreateAppealScreen(),
+//             ),
+//           );
+//         },
 //         child: const Icon(Icons.add),
 //       )
 //           : null,
@@ -47,22 +57,10 @@
 //       type: BottomNavigationBarType.fixed,
 //       elevation: 10,
 //       items: const [
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.report),
-//           label: 'Murojaat',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.article),
-//           label: 'Yangiliklar',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.announcement),
-//           label: 'Huquqiy maslahatlar',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.person),
-//           label: 'Profile',
-//         ),
+//         BottomNavigationBarItem(icon: Icon(Icons.report), label: 'Murojaat'),
+//         BottomNavigationBarItem(icon: Icon(Icons.article), label: 'Yangiliklar'),
+//         BottomNavigationBarItem(icon: Icon(Icons.announcement), label: 'Huquqiy maslahatlar'),
+//         BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
 //       ],
 //     );
 //   }
@@ -71,7 +69,10 @@
 
 import 'package:flutter/material.dart';
 import '../utils/colors.dart';
-import 'appeals/create_appeal_screen.dart'; // Bu importni qo'shish kerak
+import '../screens/profile/profile_screen.dart';
+import '../screens/home/appeals/create_appeal_screen.dart';
+import '../home/news/news_list_screen.dart';
+import '../home/announcements/announcement_list_screen.dart'; // Bu yerda yangi sahifani import qiling
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -85,16 +86,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     const Center(child: Text('Murojaatlar', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('Yangiliklar', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('Huquqiy maslahat', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('Profile', style: TextStyle(fontSize: 24))),
+    const NewsListScreen(),
+    const LegalAdviceChatScreen(), // 🔁 Huquqiy maslahatlar sahifasini shu yerga qo‘shamiz
+    const ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Karrupsiyasiz kelajak'),
+        title: const Text('Korrupsiyasiz kelajak'),
         centerTitle: true,
       ),
       body: _screens[_currentIndex],
@@ -126,22 +127,10 @@ class _HomeScreenState extends State<HomeScreen> {
       type: BottomNavigationBarType.fixed,
       elevation: 10,
       items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.report),
-          label: 'Murojaat',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.article),
-          label: 'Yangiliklar',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.announcement),
-          label: 'Huquqiy maslahatlar',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
+        BottomNavigationBarItem(icon: Icon(Icons.report), label: 'Murojaat'),
+        BottomNavigationBarItem(icon: Icon(Icons.article), label: 'Yangiliklar'),
+        BottomNavigationBarItem(icon: Icon(Icons.announcement), label: 'Huquqiy maslahatlar'),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
       ],
     );
   }

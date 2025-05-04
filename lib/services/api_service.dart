@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
 class ApiService {
-  final String baseUrl = AppConstants.apiUrl;
+  final String baseUrl = AppConstants.websiteUrl;
 
   // Test rejimi - har doim muvaffaqiyatli javob qaytaradi
   Future<dynamic> get(String endpoint, {String? token}) async {
