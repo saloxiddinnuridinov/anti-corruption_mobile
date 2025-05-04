@@ -31,4 +31,17 @@ class User {
       warningCount: json['warning_count'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'one_id': oneId,
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'role': role,
+      'is_blocked': isBlocked,
+      'warning_count': warningCount,
+    };
+  }
 }

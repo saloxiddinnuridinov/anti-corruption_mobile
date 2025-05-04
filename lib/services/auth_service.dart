@@ -1,37 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'api_service.dart';
 import '../models/user.dart';
 
 class AuthService with ChangeNotifier {
+  final ApiService _apiService = ApiService();
   User? _user;
   String? _token;
 
   User? get user => _user;
   String? get token => _token;
 
-  // Test rejimi - har qanday kirishga ruxsat beradi
   Future<bool> login(String oneId) async {
     try {
-      // Test foydalanuvchi ma'lumotlari
-      _user = User(
-        id: 1,
-        oneId: oneId,
-        name: "Test User",
-        email: "test@example.com",
-        phone: "+998901234567",
-        role: "user",
-        isBlocked: false,
-        warningCount: 0,
-      );
+      final response = await _apiService.post('v1/login', {'one_id': oneId});
 
-      _token = "test_token_${DateTime.now().millisecondsSinceEpoch}";
+      if (response != null) {
+        _user = User.fromJson(response['user']);
+        _token = response['access_token'];
 
-      // Saqlash (test rejimida)
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', _token!);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', _token!);
 
-      notifyListeners();
-      return true;
+        notifyListeners();
+        return true;
+      }
+      return false;
     } catch (e) {
       return false;
     }
@@ -39,26 +33,23 @@ class AuthService with ChangeNotifier {
 
   Future<bool> register(String oneId, String name, String? phone) async {
     try {
-      // Test foydalanuvchi ma'lumotlari
-      _user = User(
-        id: 2,
-        oneId: oneId,
-        name: name,
-        email: "$oneId@example.com",
-        phone: phone ?? "+998901234567",
-        role: "user",
-        isBlocked: false,
-        warningCount: 0,
-      );
+      final response = await _apiService.post('v1/register', {
+        'one_id': oneId,
+        'name': name,
+        'phone': phone,
+      });
 
-      _token = "test_token_${DateTime.now().millisecondsSinceEpoch}";
+      if (response != null) {
+        _user = User.fromJson(response['user']);
+        _token = response['access_token'];
 
-      // Saqlash (test rejimida)
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', _token!);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', _token!);
 
-      notifyListeners();
-      return true;
+        notifyListeners();
+        return true;
+      }
+      return false;
     } catch (e) {
       return false;
     }
@@ -70,18 +61,13 @@ class AuthService with ChangeNotifier {
 
     if (token != null) {
       _token = token;
-      _user = User(
-        id: 1,
-        oneId: "123",
-        name: "Test User",
-        email: "test@example.com",
-        phone: "+998901234567",
-        role: "user",
-        isBlocked: false,
-        warningCount: 0,
-      );
-      notifyListeners();
-      return true;
+      final response = await _apiService.get('v1/user', token: token);
+
+      if (response != null) {
+        _user = User.fromJson(response);
+        notifyListeners();
+        return true;
+      }
     }
     return false;
   }
@@ -93,5 +79,32 @@ class AuthService with ChangeNotifier {
     _user = null;
     _token = null;
     notifyListeners();
+  }
+
+  Future<bool> updateProfile({
+    required String name,
+    String? phone,
+    String? email,
+  }) async {
+    try {
+      final response = await _apiService.post(
+        'v1/profile/update',
+        {
+          'name': name,
+          'phone': phone,
+          'email': email,
+        },
+        token: _token,
+      );
+
+      if (response != null) {
+        _user = User.fromJson(response['user']);
+        notifyListeners();
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 }
